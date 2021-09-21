@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from './App.module.css'
 
 const App = () => {
   const [birthdate, setBirthDate] = useState('')
@@ -13,26 +14,34 @@ const App = () => {
   }
   function checkIfLucky(e) {
     e.preventDefault()
-    let b = birthdate.replaceAll('-','')
-    b = b.split('')
-    let sum = b.reduce((total, curr) => {
-      return parseInt(curr)+total
-    },0)
-    if( sum%luckyNumber === 0 ) {
-      setVerdict('lucky')
+    if (!birthdate || !luckyNumber) {
+      setVerdict('Enter all details')
     } else {
-      setVerdict('not lucky')
+
+      let b = birthdate.replaceAll('-','')
+      b = b.split('')
+      let sum = b.reduce((total, curr) => {
+        return parseInt(curr)+total
+      },0)
+      if( sum%luckyNumber === 0 ) {
+        setVerdict('lucky')
+      } else {
+        setVerdict('not lucky')
+      }
     }
     
   }
   return (
     <div>
-      <form onSubmit={checkIfLucky}>
-      <input type='date' value={birthdate} onChange={changeBirthDate} />
-      <input type='number' value={luckyNumber} onChange={changeLuckyNumber} />
-      <input type='submit' value='check' />
+      <h3>is your birthday lucky?</h3>
+      <form className={styles.form_div} onSubmit={checkIfLucky}>
+        <label htmlFor='dobinput'>date of birth</label>
+        <input type='date' name='dobinput' value={birthdate} onChange={changeBirthDate} />
+        <label htmlFor='luckynoinput'>lucky number</label>
+        <input type='number' name='luckynoinput' value={luckyNumber} onChange={changeLuckyNumber} />
+        <input type='submit' value='check' />
       </form>
-      <div>{verdict}</div>
+      <div className={styles.verdict_div}>{verdict}</div>
     </div>
   );
 }
