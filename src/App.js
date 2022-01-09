@@ -6,30 +6,24 @@ const App = () => {
   const [luckyNumber, setLuckyNumber] = useState('')
   const [verdict, setVerdict] = useState('')
 
-  function changeBirthDate(e) {
+  const changeBirthDate = e => {
     setBirthDate(e.target.value)
   }
-  function changeLuckyNumber(e) {
+  const changeLuckyNumber = e => {
     setLuckyNumber(e.target.value)
   }
-  function checkIfLucky(e) {
+  const checkIfLucky = e => {
     e.preventDefault()
     if (!birthdate || !luckyNumber) {
       setVerdict('Enter all details')
     } else {
-
       let b = birthdate.replaceAll('-','')
       b = b.split('')
       let sum = b.reduce((total, curr) => {
         return parseInt(curr)+total
       },0)
-      if( sum%luckyNumber === 0 ) {
-        setVerdict('lucky')
-      } else {
-        setVerdict('not lucky')
-      }
+       sum%luckyNumber === 0 ? setVerdict('lucky') : setVerdict('not lucky')
     }
-    
   }
   return (
     <div>
